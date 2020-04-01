@@ -38,9 +38,9 @@ class SubscribersQueue
     {
         $search = $this->searchItem($userData['email']);
 
-        $search === false
-            ? $this->pushItem($userData)
-            : $this->updateItem($search, $userData);
+        $search !== false
+            ? $this->updateItem($search, $userData)
+            : $this->pushItem($userData);
     }
 
     /**
