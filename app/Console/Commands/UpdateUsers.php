@@ -46,6 +46,6 @@ class UpdateUsers extends Command
             ]);
         });
 
-        $this->info('All users updated.');
+        $this->info('All users are updated.');
     }
 }
