@@ -88,7 +88,31 @@ class SubscribersQueue
      */
     public function getQueue()
     {
-        return collect(Redis::lrange($this->redisKey, 0, -1))->map(function($item) {
+        return $this->queueToCollection(Redis::lrange($this->redisKey, 0, -1));
+    }
+
+    /**
+     * A collection of items is returned and removed from the queue.
+     *
+     * @return Illuminate\Support\Collection
+     */
+    public function getBatch()
+    {
+        $batch = Redis::lrange($this->redisKey, 0, $this->batchQuantity - 1);
+        Redis::ltrim($this->redisKey, $this->batchQuantity, -1);
+
+        return $this->queueToCollection($batch);
+    }
+
+    /**
+     * Get the queue items as a collection of arrays.
+     *
+     * @param  array $queue
+     * @return Illuminate\Support\Collection
+     */
+    public function queueToCollection($queue)
+    {
+        return collect($queue)->map(function($item) {
             return json_decode($item, true);
         });
     }

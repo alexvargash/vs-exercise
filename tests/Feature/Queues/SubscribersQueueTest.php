@@ -158,4 +158,73 @@ class SubscribersQueueTest extends RedisTestCase
         $this->assertInstanceOf(Collection::class, $subscribersQueue->getQueue());
     }
 
+    /** @test */
+    public function a_batch_of_items_can_be_retrieved_from_the_queue()
+    {
+        $subscribersQueue = new SubscribersQueue();
+
+        $item1 = [
+            'id' => 1,
+            'email' => 'test1@example.com',
+            'first_name' => 'Alex',
+            'timezone' => 'CST'
+        ];
+
+        $item2 = [
+            'id' => 2,
+            'email' => 'test2@example.com',
+            'first_name' => 'John',
+            'timezone' => 'CET'
+        ];
+
+        $item3 = [
+            'id' => 3,
+            'email' => 'test3@example.com',
+            'first_name' => 'Leo',
+            'timezone' => 'CST'
+        ];
+
+        $subscribersQueue->addOrUpdateItem($item1);
+        $subscribersQueue->addOrUpdateItem($item2);
+        $subscribersQueue->addOrUpdateItem($item3);
+
+        $this->assertCount(3, $subscribersQueue->getBatch());
+    }
+
+    /** @test */
+    public function the_items_retrived_as_a_batch_are_removed_from_the_queue()
+    {
+        $subscribersQueue = new SubscribersQueue();
+
+        $item1 = [
+            'id' => 1,
+            'email' => 'test1@example.com',
+            'first_name' => 'Alex',
+            'timezone' => 'CST'
+        ];
+
+        $item2 = [
+            'id' => 2,
+            'email' => 'test2@example.com',
+            'first_name' => 'John',
+            'timezone' => 'CET'
+        ];
+
+        $item3 = [
+            'id' => 3,
+            'email' => 'test3@example.com',
+            'first_name' => 'Leo',
+            'timezone' => 'CST'
+        ];
+
+        $subscribersQueue->addOrUpdateItem($item1);
+        $subscribersQueue->addOrUpdateItem($item2);
+        $subscribersQueue->addOrUpdateItem($item3);
+
+        $this->assertCount(3, $subscribersQueue->getBatch());
+        $this->assertItemNotOnQueue($item1);
+        $this->assertItemNotOnQueue($item2);
+        $this->assertItemNotOnQueue($item3);
+    }
+
 }
