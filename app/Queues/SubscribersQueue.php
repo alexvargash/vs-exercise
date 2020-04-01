@@ -116,4 +116,14 @@ class SubscribersQueue
             return json_decode($item, true);
         });
     }
+
+    /**
+     * Check if the queue is not empty.
+     *
+     * @return boolean
+     */
+    public function isNotEmpty()
+    {
+        return $this->getQueue()->isNotEmpty();
+    }
 }

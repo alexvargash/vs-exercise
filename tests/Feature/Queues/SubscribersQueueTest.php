@@ -227,4 +227,11 @@ class SubscribersQueueTest extends RedisTestCase
         $this->assertItemNotOnQueue($item3);
     }
 
+    /** @test */
+    public function the_queue_can_be_checked_for_emptiness()
+    {
+        $subscribersQueue = new SubscribersQueue();
+
+        $this->assertFalse($subscribersQueue->isNotEmpty());
+    }
 }
