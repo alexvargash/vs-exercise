@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\Jobs;
+namespace Tests\Integration\Jobs;
 
 use App\Jobs\ProcessSubscribersBatch;
 use App\Queues\SubscribersQueue;
