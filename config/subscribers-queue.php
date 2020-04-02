@@ -14,6 +14,7 @@ return [
 
     'queue' => [
         'key' => env('SUBSCRIBERS_QUEUE_KEY', 'queue:subscribers'),
+        'frequency' => env('SUBSCRIBERS_SERVICE_FREQUENCY', '0 * * * *'),
         'batch_max_items' => env('SUBSCRIBERS_BATCH_MAX_ITEMS', 1000),
         'batch_quantity' => env('SUBSCRIBERS_QUEUE_BATCH_QUANTITY', 50),
     ],
