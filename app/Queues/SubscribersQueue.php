@@ -10,7 +10,7 @@ class SubscribersQueue
      * Maximum quantity of subscribers allowed per batch.
      * @var int
      */
-    private $batchQuantity;
+    private $batchMaxItems;
 
     /**
      * Redis key for the subscribers queue.
@@ -24,7 +24,7 @@ class SubscribersQueue
     public function __construct()
     {
         $this->redisKey = config('subscribers-queue.queue.key');
-        $this->batchQuantity = config('subscribers-queue.queue.batch_quantity');
+        $this->batchMaxItems = config('subscribers-queue.queue.batch_max_items');
     }
 
     /**
@@ -98,8 +98,8 @@ class SubscribersQueue
      */
     public function getBatch()
     {
-        $batch = Redis::lrange($this->redisKey, 0, $this->batchQuantity - 1);
-        Redis::ltrim($this->redisKey, $this->batchQuantity, -1);
+        $batch = Redis::lrange($this->redisKey, 0, $this->batchMaxItems - 1);
+        Redis::ltrim($this->redisKey, $this->batchMaxItems, -1);
 
         return $this->queueToCollection($batch);
     }
